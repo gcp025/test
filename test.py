@@ -5,14 +5,17 @@ app = Flask(__name__)
 
 @app.route("/", methods=["POST"])
 def webhook():
-    try:
-        body = request.get_json(force=True)  # ← force=True を追加！
-        print("📦 Webhook受信内容：", body)
+    print("🚀 Webhook Hit!")
+    print("📬 Headers:", dict(request.headers))
+    print("📦 Raw Data:", request.data)
 
+    try:
+        body = request.get_json(force=True)
+        print("📦 JSON Body:", body)
         user_id = body["events"][0]["source"]["userId"]
         print("✅ あなたの userId:", user_id)
     except Exception as e:
-        print("⚠ エラー発生:", e)
+        print("⚠ エラー:", e)
 
     return "OK", 200
 
